@@ -9,7 +9,7 @@ namespace KeihinLive
     internal class ReadIdentifier
     {
         public byte Identifier0;
-        public byte Identifiert1;
+        public byte Identifier1;
         public ReadIdentifier() { }
     }
 }
