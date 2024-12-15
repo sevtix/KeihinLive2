@@ -60,7 +60,7 @@
             checkedListBox1.Location = new Point(8, 25);
             checkedListBox1.Margin = new Padding(5, 6, 5, 6);
             checkedListBox1.Name = "checkedListBox1";
-            checkedListBox1.Size = new Size(305, 368);
+            checkedListBox1.Size = new Size(305, 364);
             checkedListBox1.TabIndex = 0;
             // 
             // checkBox1
@@ -237,7 +237,7 @@
             comboBox1.FormattingEnabled = true;
             comboBox1.Location = new Point(6, 22);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(228, 33);
+            comboBox1.Size = new Size(228, 23);
             comboBox1.TabIndex = 5;
             // 
             // button1
@@ -245,7 +245,7 @@
             button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             button1.Location = new Point(240, 21);
             button1.Name = "button1";
-            button1.Size = new Size(73, 34);
+            button1.Size = new Size(73, 24);
             button1.TabIndex = 6;
             button1.Text = "CONN";
             button1.UseVisualStyleBackColor = true;
@@ -295,7 +295,7 @@
             Controls.Add(tableLayoutPanel1);
             Margin = new Padding(5, 6, 5, 6);
             Name = "Main";
-            Text = "KeihinLive | Severin Schmid | 15.12.2024";
+            Text = "KeihinLive | Severin Schmid";
             Load += Main_LoadAsync;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();

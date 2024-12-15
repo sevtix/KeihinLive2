@@ -116,11 +116,6 @@ namespace KeihinLive
             channel.SetConfig(Parameter.W3, 20); // 50
             channel.SetConfig(Parameter.W4, 20); // 50
             channel.SetConfig(Parameter.W5, 100); // 300
-            
-            channel.SetConfig(Parameter.TIDLE, 300); // 300
-            channel.SetConfig(Parameter.TINIL, 25);
-            channel.SetConfig(Parameter.TWUP, 50);
-            channel.SetConfig(Parameter.PARITY, 0);
 
 
         }

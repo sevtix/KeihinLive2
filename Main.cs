@@ -283,7 +283,7 @@ namespace KeihinLive
             catch (Exception ex)
             {
                 //MessageBox.Show(ex.Message);
-                richTextBox1.AppendText(ex.Message + ex.StackTrace);
+                richTextBox1.AppendText(ex.Message + ex.StackTrace + "\n");
                 richTextBox1.BackColor = Color.Yellow;
                 Client.Stop();
             }
@@ -299,13 +299,12 @@ namespace KeihinLive
                 Client = new J2534Client(DllFileName, 0xD5, 0xF5);
                 ecu = new KeihinECU(Client);
                 Client.Start();
-
                 vciConnected = true;
                 UpdateControls();
             }
             catch (Exception ex)
             {
-                richTextBox1.AppendText(ex.Message + ex.StackTrace);
+                richTextBox1.AppendText(ex.Message + ex.StackTrace + "\n");
                 richTextBox1.BackColor = Color.Yellow;
             }
         }
@@ -314,7 +313,7 @@ namespace KeihinLive
         {
             checkBox1.Enabled = vciConnected;
             checkedListBox1.Enabled = vciConnected && !checkBox1.Checked;
-            richTextBox2.Enabled = vciConnected;
+            richTextBox2.Enabled = vciConnected && !checkBox1.Checked;
         }
 
         private void ClearDataViews()
@@ -328,38 +327,52 @@ namespace KeihinLive
         {
             await Task.Run(async () =>
             {
-                if (Client.FastInit(3))
+                Invoke(new Action(() =>
+                    richTextBox2.Enabled = false
+                ));
+
+                try
                 {
-                    UnlockLevel level = UnlockLevel.LEVEL_5;
-                    if (!await ecu.UnlockECU(level, backendClient))
+                    if (Client.FastInit(3))
                     {
-                        throw new Exception("ECU auth fail");
+                        UnlockLevel level = UnlockLevel.LEVEL_5;
+                        if (!await ecu.UnlockECU(level, backendClient))
+                        {
+                            throw new Exception("ECU auth fail");
+                        }
+                        var vin = ecu.ReadVIN().Replace("\0", "");
+                        var sw = ecu.ReadSoftwareVersion().Replace("\0", "");
+                        var pn = ecu.ReadPartNumber().Replace("\0", "");
+
+                        Invoke(new Action(() =>
+                            richTextBox2.Clear()
+                        ));
+
+                        Invoke(new Action(() =>
+                            richTextBox2.AppendText($"VIN: {vin}\n")
+                        ));
+
+                        Invoke(new Action(() =>
+                            richTextBox2.AppendText($"SW: {sw}\n")
+                        ));
+
+                        Invoke(new Action(() =>
+                            richTextBox2.AppendText($"PN: {pn}\n")
+                        ));
+
+                        Invoke(new Action(() =>
+                            richTextBox2.AppendText($"Click to identify again\n")
+                        ));
                     }
-                    var vin = ecu.ReadVIN();
-                    var sw = ecu.ReadSoftwareVersion();
-                    var mt = ecu.ReadMappingType();
-                    var pn = ecu.ReadPartNumber();
-
-                    Invoke(new Action(() =>
-                        richTextBox2.Clear()
-                    ));
-
-                    Invoke(new Action(() =>
-                        richTextBox2.AppendText($"VIN: {vin}\n")
-                    ));
-
-                    Invoke(new Action(() =>
-                        richTextBox2.AppendText($"SW: {sw}\n")
-                    ));
-
-                    Invoke(new Action(() =>
-                        richTextBox2.AppendText($"MT: {mt}\n")
-                    ));
-
-                    Invoke(new Action(() =>
-                        richTextBox2.AppendText($"PN: {pn}\n")
-                    ));
+                } catch (Exception ex)
+                {
+                    richTextBox1.AppendText(ex.Message+"\n");
                 }
+
+                Invoke(new Action(() =>
+                    richTextBox2.Enabled = true
+                ));
+
             });
         }
     }
