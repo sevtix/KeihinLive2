@@ -27,7 +27,8 @@ namespace KeihinLive
         private void Main_LoadAsync(object sender, EventArgs e)
         {
 
-            foreach (APIInfo apiInfo in APIFactory.GetAPIinfo().ToArray()) {
+            foreach (APIInfo apiInfo in APIFactory.GetAPIinfo().ToArray())
+            {
                 comboBox1.Items.Add(apiInfo.Filename);
             }
 
@@ -49,9 +50,9 @@ namespace KeihinLive
             ReadIdentifier mapReadIdentifier = new() { Identifier0 = 0x00, Identifier1 = 0x03 };
             ReadIdentifier unknown0006 = new() { Identifier0 = 0x00, Identifier1 = 0x06 };
             ReadIdentifier batteryVoltageIdentifier = new() { Identifier0 = 0x00, Identifier1 = 0x07 };
-            ReadIdentifier unknown0008 = new() { Identifier0 = 0x00, Identifier1 = 0x08 };
+            ReadIdentifier cltAdcReadIdentifier = new() { Identifier0 = 0x00, Identifier1 = 0x08 };
             ReadIdentifier cltReadIdentifier = new() { Identifier0 = 0x00, Identifier1 = 0x09 };
-            ReadIdentifier unknown0010 = new() { Identifier0 = 0x00, Identifier1 = 0x10 };
+            ReadIdentifier iatAdcReadIdentifier = new() { Identifier0 = 0x00, Identifier1 = 0x10 };
             ReadIdentifier iatReadIdentifier = new() { Identifier0 = 0x00, Identifier1 = 0x11 };
             ReadIdentifier unknown0012 = new() { Identifier0 = 0x00, Identifier1 = 0x12 };
             ReadIdentifier tpsRefReadIdentifier = new() { Identifier0 = 0x00, Identifier1 = 0x23 };
@@ -90,14 +91,14 @@ namespace KeihinLive
 
             // 0x06 0xXX
             ReadIdentifier unknown0601 = new() { Identifier0 = 0x06, Identifier1 = 0x01 };
-            ReadIdentifier unknown0608 = new() { Identifier0 = 0x06, Identifier1 = 0x08 };
+            ReadIdentifier adaptedGearNAdcReadIdentifier = new() { Identifier0 = 0x06, Identifier1 = 0x08 };
             ReadIdentifier unknown0609 = new() { Identifier0 = 0x06, Identifier1 = 0x09 };
-            ReadIdentifier unknown0610 = new() { Identifier0 = 0x06, Identifier1 = 0x10 };
-            ReadIdentifier unknown0611 = new() { Identifier0 = 0x06, Identifier1 = 0x11 };
-            ReadIdentifier unknown0612 = new() { Identifier0 = 0x06, Identifier1 = 0x12 };
-            ReadIdentifier unknown0613 = new() { Identifier0 = 0x06, Identifier1 = 0x13 };
-            ReadIdentifier unknown0614 = new() { Identifier0 = 0x06, Identifier1 = 0x14 };
-            ReadIdentifier unknown0615 = new() { Identifier0 = 0x06, Identifier1 = 0x15 };
+            ReadIdentifier adaptedGear1AdcReadIdentifier = new() { Identifier0 = 0x06, Identifier1 = 0x10 };
+            ReadIdentifier adaptedGear2AdcReadIdentifier = new() { Identifier0 = 0x06, Identifier1 = 0x11 };
+            ReadIdentifier adaptedGear3AdcReadIdentifier = new() { Identifier0 = 0x06, Identifier1 = 0x12 };
+            ReadIdentifier adaptedGear4AdcReadIdentifier = new() { Identifier0 = 0x06, Identifier1 = 0x13 };
+            ReadIdentifier adaptedGear5AdcReadIdentifier = new() { Identifier0 = 0x06, Identifier1 = 0x14 };
+            ReadIdentifier adaptedGear6AdcReadIdentifier = new() { Identifier0 = 0x06, Identifier1 = 0x15 };
             ReadIdentifier unknown0616 = new() { Identifier0 = 0x06, Identifier1 = 0x16 };
 
             // 0x10 0xXX
@@ -128,8 +129,10 @@ namespace KeihinLive
                 new() { Id = 2, Name = "TPS", ReadIdentifier = tpsReadIdentifier},
                 new() { Id = 3, Name = "TH", ReadIdentifier = thReadIdentifier, Formula = x => (x/2.55), Unit = "%"},
                 new() { Id = 4, Name = "MAP", ReadIdentifier = mapReadIdentifier, Unit = "mbar"},
-                new() { Id = 5, Name = "Gear", ReadIdentifier = gearReadIdentifier},
-                new() { Id = 6, Name = "GPS", ReadIdentifier = gearAdcReadIdentifier},
+                new() { Id = 4, Name = "VBAT", ReadIdentifier = batteryVoltageIdentifier, Formula = x => (x/10), Unit = "V"},
+                new() { Id = 5, Name = "GEAR", ReadIdentifier = gearReadIdentifier},
+                new() { Id = 6, Name = "ROLL", ReadIdentifier = rollReadIdentifier},
+                new() { Id = 6, Name = "GEAR_ADC", ReadIdentifier = gearAdcReadIdentifier},
                 new() { Id = 7, Name = "IGA", ReadIdentifier = igaReadIdentifier, Formula = x => (x/2)-64, Unit = "°"},
                 new() { Id = 8, Name = "CLT", ReadIdentifier = cltReadIdentifier, Formula = x => x - 40, Unit = "°C"},
                 new() { Id = 9, Name = "IAT", ReadIdentifier = iatReadIdentifier, Formula = x => x - 40, Unit = "°C"},
@@ -137,8 +140,15 @@ namespace KeihinLive
 
                 new() { Id = 11, Name = "unknown0002", ReadIdentifier = unknown0002},
                 new() { Id = 12, Name = "unknown0006", ReadIdentifier = unknown0006},
-                new() { Id = 13, Name = "unknown0008", ReadIdentifier = unknown0008},
-                new() { Id = 14, Name = "unknown0010", ReadIdentifier = unknown0010},
+                new() { Id = 13, Name = "CLT_ADC", ReadIdentifier = cltAdcReadIdentifier},
+                new() { Id = 14, Name = "IAT_ADC", ReadIdentifier = iatAdcReadIdentifier},
+                new() { Id = 38, Name = "GEAR_N", ReadIdentifier = adaptedGearNAdcReadIdentifier},
+                new() { Id = 40, Name = "GEAR_1", ReadIdentifier = adaptedGear1AdcReadIdentifier},
+                new() { Id = 41, Name = "GEAR_2", ReadIdentifier = adaptedGear2AdcReadIdentifier},
+                new() { Id = 42, Name = "GEAR_3", ReadIdentifier = adaptedGear3AdcReadIdentifier},
+                new() { Id = 43, Name = "GEAR_4", ReadIdentifier = adaptedGear4AdcReadIdentifier},
+                new() { Id = 44, Name = "GEAR_5", ReadIdentifier = adaptedGear5AdcReadIdentifier},
+                new() { Id = 45, Name = "GEAR_6", ReadIdentifier = adaptedGear6AdcReadIdentifier},
                 new() { Id = 15, Name = "unknown0012", ReadIdentifier = unknown0012},
                 new() { Id = 16, Name = "unknown0024", ReadIdentifier = unknown0024},
                 new() { Id = 17, Name = "unknown0029", ReadIdentifier = unknown0029},
@@ -162,14 +172,7 @@ namespace KeihinLive
                 new() { Id = 35, Name = "unknown0301", ReadIdentifier = unknown0301},
                 new() { Id = 36, Name = "unknown0400", ReadIdentifier = unknown0400},
                 new() { Id = 37, Name = "unknown0601", ReadIdentifier = unknown0601},
-                new() { Id = 38, Name = "unknown0608", ReadIdentifier = unknown0608},
                 new() { Id = 39, Name = "unknown0609", ReadIdentifier = unknown0609},
-                new() { Id = 40, Name = "unknown0610", ReadIdentifier = unknown0610},
-                new() { Id = 41, Name = "unknown0611", ReadIdentifier = unknown0611},
-                new() { Id = 42, Name = "unknown0612", ReadIdentifier = unknown0612},
-                new() { Id = 43, Name = "unknown0613", ReadIdentifier = unknown0613},
-                new() { Id = 44, Name = "unknown0614", ReadIdentifier = unknown0614},
-                new() { Id = 45, Name = "unknown0615", ReadIdentifier = unknown0615},
                 new() { Id = 46, Name = "unknown0616", ReadIdentifier = unknown0616},
                 new() { Id = 47, Name = "unknown1000", ReadIdentifier = unknown1000},
                 new() { Id = 48, Name = "unknown1001", ReadIdentifier = unknown1001},
@@ -198,7 +201,7 @@ namespace KeihinLive
 
         private void Init()
         {
-            
+
         }
 
         bool polling = true;
@@ -213,11 +216,21 @@ namespace KeihinLive
                 if (checkBox1.Checked == true)
                 {
 
+                    if (checkedListBox1.CheckedItems.Count == 0)
+                    {
+                        checkBox1.Checked = false;
+                        MessageBox.Show("Minimum data count is 1");
+                        return;
+                    }
+
                     if (checkedListBox1.CheckedItems.Count > 8)
                     {
+                        checkBox1.Checked = false;
                         MessageBox.Show("Maximum data count is 8");
                         return;
                     }
+
+                    ClearDataViews();
 
                     List<LiveValue> checkedLiveValues = new List<LiveValue>();
                     foreach (var checkedItem in checkedListBox1.CheckedItems)
@@ -241,7 +254,7 @@ namespace KeihinLive
                                 {
                                     ReadIdentifier readIdentifier = val.ReadIdentifier;
 
-                                    Invoke(new Action(() => labels[labelIndex].BackColor = Color.Green));
+                                    //Invoke(new Action(() => labels[labelIndex].BackColor = Color.Green));
                                     byte[] readResult = ecu.ReadByIdentifier2(readIdentifier.Identifier0, readIdentifier.Identifier1);
                                     byte[] resp16 = new byte[] { readResult[1], readResult[0] };
                                     var intValue = BitConverter.ToUInt16(resp16, 0);
@@ -249,7 +262,7 @@ namespace KeihinLive
                                     double displayedValue = intValue;
                                     if (val.Formula != null)
                                     {
-                                        displayedValue = val.ApplyFormula(intValue);
+                                        displayedValue = Math.Round(val.ApplyFormula(intValue), 1);
                                     }
 
                                     string displayedUnit = "";
@@ -259,7 +272,7 @@ namespace KeihinLive
                                     }
 
                                     Invoke(new Action(() => labels[labelIndex].Text = $"{val.Name}: {displayedValue}{displayedUnit}"));
-                                    Invoke(new Action(() => labels[labelIndex].BackColor = Color.LightGreen));
+                                    //Invoke(new Action(() => labels[labelIndex].BackColor = Color.LightGreen));
                                     labelIndex++;
                                 }
                             }
@@ -287,46 +300,11 @@ namespace KeihinLive
                 ecu = new KeihinECU(Client);
                 Client.Start();
 
-                await Task.Run(async () =>
-                {
-                    if (Client.FastInit(3))
-                    {
-                        UnlockLevel level = UnlockLevel.LEVEL_5;
-                        if (!await ecu.UnlockECU(level, backendClient))
-                        {
-                            throw new Exception("ECU auth fail");
-                        }
-                        var vin = ecu.ReadVIN();
-                        var sw = ecu.ReadSoftwareVersion();
-                        var mt = ecu.ReadMappingType();
-                        var pn = ecu.ReadPartNumber();
-
-                        Invoke(new Action(() =>
-                            richTextBox2.Clear()
-                        ));
-
-                        Invoke(new Action(() =>
-                            richTextBox2.AppendText($"VIN: {vin}\n")
-                        ));
-
-                        Invoke(new Action(() =>
-                            richTextBox2.AppendText($"SW: {sw}\n")
-                        ));
-
-                        Invoke(new Action(() =>
-                            richTextBox2.AppendText($"MT: {mt}\n")
-                        ));
-
-                        Invoke(new Action(() =>
-                            richTextBox2.AppendText($"PN: {pn}\n")
-                        ));
-                    }
-                });
-
                 vciConnected = true;
                 UpdateControls();
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 richTextBox1.AppendText(ex.Message + ex.StackTrace);
                 richTextBox1.BackColor = Color.Yellow;
             }
@@ -336,6 +314,53 @@ namespace KeihinLive
         {
             checkBox1.Enabled = vciConnected;
             checkedListBox1.Enabled = vciConnected && !checkBox1.Checked;
+            richTextBox2.Enabled = vciConnected;
+        }
+
+        private void ClearDataViews()
+        {
+            foreach (Label label in labels.Values) {
+                label.Text = "No data";
+            }
+        }
+
+        private async void richTextBox2_Click(object sender, EventArgs e)
+        {
+            await Task.Run(async () =>
+            {
+                if (Client.FastInit(3))
+                {
+                    UnlockLevel level = UnlockLevel.LEVEL_5;
+                    if (!await ecu.UnlockECU(level, backendClient))
+                    {
+                        throw new Exception("ECU auth fail");
+                    }
+                    var vin = ecu.ReadVIN();
+                    var sw = ecu.ReadSoftwareVersion();
+                    var mt = ecu.ReadMappingType();
+                    var pn = ecu.ReadPartNumber();
+
+                    Invoke(new Action(() =>
+                        richTextBox2.Clear()
+                    ));
+
+                    Invoke(new Action(() =>
+                        richTextBox2.AppendText($"VIN: {vin}\n")
+                    ));
+
+                    Invoke(new Action(() =>
+                        richTextBox2.AppendText($"SW: {sw}\n")
+                    ));
+
+                    Invoke(new Action(() =>
+                        richTextBox2.AppendText($"MT: {mt}\n")
+                    ));
+
+                    Invoke(new Action(() =>
+                        richTextBox2.AppendText($"PN: {pn}\n")
+                    ));
+                }
+            });
         }
     }
 }
